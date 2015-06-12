@@ -1,0 +1,21 @@
+{
+  "name": "site-name-goes-here",
+  "version": "1.0.0",
+  "description": "Site description goes here",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "^3.8.11"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Twogether",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.12.2",
+    "gulp-livereload": "^3.8.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-sass": "^1.3.3",
+    "gulp-watch": "^4.1.1"
+  }
+}

@@ -1,0 +1,118 @@
+$(document).ready(function() {
+
+    var sum = 0;
+    var totalpercent;
+
+    // $(window).on('resize', function(){
+    //     $('.tab-pane.white .inner').css('min-height', $(window).height() - $('.tab-pane.white .header').outerHeight() - parseInt($('.tab-pane.white .inner').css('padding-top')) - parseInt($('.tab-pane.white .inner').css('padding-bottom')) - $('footer').outerHeight(true) );
+    // }).resize();
+
+    setTimeout(function() {
+        if ( $('#tabintro').hasClass('active') ) {
+            $('footer').hide();
+        }
+    }, 100);
+
+    $('.start-now').on('click', function(){
+        $('footer').show();
+    });
+
+    $('label').on('click', function(){
+        $('label, input').removeClass('checked');
+        $(this).addClass('checked');
+        $(this).prev('input').addClass('checked');
+    });
+
+    var $validator = $("#questionnaire").validate(),
+        $valid;
+
+    jQuery.extend(jQuery.validator.messages, {
+        required: "Please select an answer.",
+    });
+
+    // $( ".btn" ).click(function() {
+    //   showWidth( Math.round($('.bar').percWidth()) );
+    // });
+
+    // move to first tab and reset sum
+    $('.button-reset').click(function(){
+        sum = 0;
+        $('#question-wrapper').bootstrapWizard('show',1);
+    });
+
+    $('#question-wrapper').bootstrapWizard({
+        'nextSelector': '.button-next',
+        'previousSelector': '.button-previous',
+        'lastSelector': '.button-last',
+        'finishSelector': '.button-finish',
+        'firstSelector': '.button-first',
+        onFirst: function(tab, navigation, index){
+
+        },
+        onNext: function(tab, navigation, index) {
+            $valid = $("#questionnaire").valid();
+            if(!$valid) {
+                $validator.focusInvalid();
+                return false;
+            } else {
+                var index = index - 1;
+                var score = $('#tab' + index).find('input:checked').data('score');
+                if(isNaN(score)) {
+                    var score = 0;
+                }
+                sum += score;
+                console.log('clicked');
+            }
+        },
+        onPrevious: function(tab, navigation, index){
+            var index = index;
+            var score = $('#tab' + index).find('input:checked').data('score');
+            if(isNaN(score)) {
+                var score = 0;
+            }
+            sum -= score;
+            // showWidth( Math.round($('.bar').percWidth()) );
+        },
+        onTabShow: function(tab, navigation, index) {
+            var $total   = navigation.find('li').length,
+                $current = index + 1,
+                $percent = ($current/$total) * 100;
+
+            totalpercent = ($current/$total) * 100;
+
+
+            $('#question-wrapper').find('.bar').css({
+                width: $percent + '%'
+            });
+
+            $( ".percentage-counter" ).text(  Math.round($percent) + "%" );
+
+
+        },
+        onLast: function(tab, navigation, index){
+            var index = index - 1;
+            var score = $('#tab' + index).find('input:checked').data('score');
+            if(isNaN(score)) {
+                var score = 0;
+            }
+            sum += score;
+            // alert('You scored ' + sum + '!');
+
+            if (sum <= 10) {
+              $( "#ending-header" ).text( "what!" );
+              $( "#ending-message" ).text( "Clearly, this assessment is not for you. Then again, this is just a quick overview. Let’s talk specifics about what’s possible." );
+            } else if (sum > 10 && sum <= 15 ) {
+              $( "#ending-header" ).text( "ok!" );
+              $( "#ending-message" ).text( "We know how you’re feeling. It’s time to shake things up a little. We can help you make the case for change." );
+            } else if (sum > 15 && sum <= 20 ) {
+              $( "#ending-header" ).text( "yes!" );
+              $( "#ending-message" ).text( "You’re right on the edge of a transformative, life-changing, career-accelerating breakthrough. Let’s talk." );
+            } else if (sum > 20 && sum <= 25 ) {
+              $( "#ending-header" ).text( "wow!" );
+              $( "#ending-message" ).text( "You’re way ahead of the game. Open, agile, soaring in the cloud and virtually awesome. Can we join your party?" );
+            }
+
+            $('.progress').hide();
+        }
+    });
+});
