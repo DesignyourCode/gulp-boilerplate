@@ -7,7 +7,7 @@ var paths = {
 
     styles: {
         src: './assets/styles',
-        files: './assets/styles/scss/*.scss',
+        files: './assets/styles/scss/**/*.scss',
         dest: './assets/styles/'
     }
 
