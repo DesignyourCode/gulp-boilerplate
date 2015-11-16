@@ -30,7 +30,7 @@ gulp.task('serve', function(done) {
   var express = require('express');
   var app = express();
   app.use(express.static(__dirname + '/'));
-  app.listen(port, function () {
+  app.listen(port, 'localhost', function () {
      done();
   });
   console.log('Site served on http://localhost:' + port)
