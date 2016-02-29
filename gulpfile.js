@@ -58,7 +58,7 @@ gulp.task('js', function() {
 
 // JS
 var scripts = [
-  './assets/lib//**/*.js'
+  './assets/lib/src/*.js'
 ];
 
 gulp.task('concat', function() {
