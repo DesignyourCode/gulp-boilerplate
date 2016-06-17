@@ -1,4 +1,8 @@
 @import 'normalize';
-@import 'fonts';
-@import 'mixins';
-@import 'variables';
+@import 'settings';
+@import 'animations';
+@import 'global';
+
+@import 'layouts/*';
+@import 'modules/*';
+@import 'components/*';

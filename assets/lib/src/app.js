@@ -7,10 +7,10 @@ ga('create', 'UA-XXXXXXXX-X', 'auto');
 ga('send', 'pageview');
 
 $(document).ready(function() {
-    //Your code goes here - Please ensure it is commented properly
-    
-    //Tracking looks like this - update accordingly
-    ga('send', 'event', 'category', 'action');
-    ga('send', 'event', 'category', 'action', 'label');
-    ga('send', 'event', 'category', 'action', 'label', value);  // value is a number.
+    /*
+     * YOUR CODE GOES HERE
+     * You should ensure it is commented properly
+     * Gulp will concatinate and minify your code
+     * And remove comments
+     */
 });

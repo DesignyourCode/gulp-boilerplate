@@ -5,6 +5,7 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
     plumber = require('gulp-plumber'),
+    sassGlob = require('gulp-sass-glob'),
     livereload = require('gulp-livereload');
 
 var paths = {
@@ -20,6 +21,7 @@ gulp.task('sass', function() {
     .pipe(plumber({
         errorHandler: notify.onError("Sass Error: <%= error.message %>")}
     ))
+    .pipe(sassGlob())
     .pipe(sass({
         outputStyle: 'compressed',
         sourceComments: false,
@@ -42,44 +44,45 @@ gulp.task('serve', function(done) {
 });
 
 gulp.task('html', function() {
-  gulp.src('./**/*.html')
-    .pipe(livereload());
+    gulp.src('./*.html')
+        .pipe(livereload());
 });
 
 gulp.task('img', function() {
-  gulp.src(['./assets/img/*.*'])
-    .pipe(livereload());
-});
-
-gulp.task('js', function() {
-  gulp.src('./assets/lib/*.js')
-    .pipe(livereload());
+    gulp.src(['./assets/img/*.*'])
+        .pipe(livereload());
 });
 
 // JS
 var scripts = [
-  './assets/lib/src/*.js'
+    './assets/lib/src/vendor/*.js',
+    './assets/lib/src/*.js'
 ];
 
 gulp.task('concat', function() {
-  return gulp.src(scripts)
-    .pipe(concat('app.js'))
-    .pipe(uglify())
-    .on('error', function errorHandler (error) {
-      console.log(error.toString());
-      this.emit('end');
-    })
-    .pipe(rename('app.min.js'))
-    .pipe(gulp.dest('./assets/lib/'))
+    return gulp.src(scripts)
+        .pipe(concat('app.js'))
+        .pipe(uglify())
+        .on('error', function errorHandler (error) {
+            console.log(error.toString());
+            this.emit('end');
+        })
+        .pipe(rename('app.min.js'))
+        .pipe(gulp.dest('./assets/lib/'))
 });
 
 gulp.task('watch', function() {
-  gulp.watch(paths.styles.files, ['sass']);
-  gulp.watch(scripts, ['concat']);
-  gulp.watch('./**/*.html', ['html']);
-  gulp.watch('./assets/img/*.*', ['img']);
+    /*
+     * @todo - Enable watch for new files
+     * @todo - Handle watch when files are deleted
+     */
+    
+    gulp.watch(paths.styles.files, ['sass']);
+    gulp.watch(scripts, ['concat']);
+    gulp.watch('./*.html', ['html']);
+    gulp.watch('./assets/img/*.*', ['img']);
 
-  livereload.listen();
+    livereload.listen();
 });
 
 gulp.task('default', ['watch', 'concat', 'serve']);
