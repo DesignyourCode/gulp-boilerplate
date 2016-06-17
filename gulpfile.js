@@ -10,9 +10,9 @@ var gulp = require('gulp'),
 
 var paths = {
     styles: {
-        src: './assets/styles',
-        files: './assets/styles/scss/**/*.scss',
-        dest: './assets/styles/'
+        src: 'assets/styles',
+        files: 'assets/styles/scss/**/*.scss',
+        dest: 'assets/styles/'
     }
 }
 
@@ -44,19 +44,19 @@ gulp.task('serve', function(done) {
 });
 
 gulp.task('html', function() {
-    gulp.src('./*.html')
+    gulp.src('*.html')
         .pipe(livereload());
 });
 
 gulp.task('img', function() {
-    gulp.src(['./assets/img/*.*'])
+    gulp.src(['assets/img/*.*'])
         .pipe(livereload());
 });
 
 // JS
 var scripts = [
-    './assets/lib/src/vendor/*.js',
-    './assets/lib/src/*.js'
+    'assets/lib/src/vendor/*.js',
+    'assets/lib/src/*.js'
 ];
 
 gulp.task('concat', function() {
@@ -68,19 +68,14 @@ gulp.task('concat', function() {
             this.emit('end');
         })
         .pipe(rename('app.min.js'))
-        .pipe(gulp.dest('./assets/lib/'))
+        .pipe(gulp.dest('assets/lib/'))
 });
 
-gulp.task('watch', function() {
-    /*
-     * @todo - Enable watch for new files
-     * @todo - Handle watch when files are deleted
-     */
-    
+gulp.task('watch', function() {  
     gulp.watch(paths.styles.files, ['sass']);
     gulp.watch(scripts, ['concat']);
-    gulp.watch('./*.html', ['html']);
-    gulp.watch('./assets/img/*.*', ['img']);
+    gulp.watch('*.html', ['html']);
+    gulp.watch('assets/img/*.*', ['img']);
 
     livereload.listen();
 });

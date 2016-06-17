@@ -52,11 +52,6 @@ For modal windows I tend to use the boubon.io one. To install this, you need to 
 3. `bourbon install`
 4. You will need to `@import bourbon/bourbon';` in your SCSS file.
 
-## @TODO
-
-1. Enable watch for new files
-2. Handle watch when files are deleted
-
 ## Contributing
 
 This format might not cover everyones requirements. If you think something could be improved feel free to fork and submit a pull request.
