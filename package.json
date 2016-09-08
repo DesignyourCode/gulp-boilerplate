@@ -1,7 +1,7 @@
 {
-    "name": "site-name-goes-here",
+    "name": "gulp-starter-boilerplate",
     "version": "1.0.0",
-    "description": "Site description goes here",
+    "description": "A quick start template for static sites, using gulp.",
     "author": "Your name or company",
     "license": "MIT",
     "devDependencies": {
