@@ -1,20 +1,29 @@
 {
-    "name": "gulp-starter-boilerplate",
+    "name": "generator-gulp-starter-boilerplate",
     "version": "1.0.0",
-    "description": "A quick start template for static sites, using gulp.",
-    "author": "Your name or company",
+    "description": "A quick start template for static sites, using gulp and browsersync.",
+    "keywords": [
+        "yeoman-generator"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/DesignyourCode/gulp-boilerplate.git"
+    },
+    "bugs": {
+        "url": "https://github.com/DesignyourCode/gulp-boilerplate/issues"
+    },
+    "homepage": "https://github.com/DesignyourCode/gulp-boilerplate#readme",
+    "author": "DesignyourCode",
     "license": "MIT",
     "devDependencies": {
-        "express": "^4.12.2",
+        "browser-sync": "^2.12.9",
         "gulp": "^3.8.11",
         "gulp-concat": "^2.5.2",
-        "gulp-livereload": "^3.8.0",
-        "gulp-notify": "^2.2.0",
+        "gulp-notify": "^3.0.0",
         "gulp-plumber": "^1.0.1",
         "gulp-rename": "^1.2.0",
-        "gulp-sass": "^2.1.1",
+        "gulp-sass": "^3.1.0",
         "gulp-sass-glob": "^1.0.6",
-        "gulp-uglify": "^1.1.0",
-        "gulp-watch": "^4.1.1"
+        "gulp-uglify": "^2.1.2"
     }
 }

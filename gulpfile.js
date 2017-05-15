@@ -6,17 +6,34 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     plumber = require('gulp-plumber'),
     sassGlob = require('gulp-sass-glob'),
-    livereload = require('gulp-livereload');
+    browserSync = require('browser-sync').create(),
+    reload = browserSync.reload;
 
 var paths = {
+    html: {
+        src:   '/',
+        files: '*.html'
+    },
+    images: {
+        src:   'assets/img',
+        files: 'assets/img/**/*.*'
+    },
     styles: {
-        src: 'assets/styles',
+        src:   'assets/styles/scss',
         files: 'assets/styles/scss/**/*.scss',
-        dest: 'assets/styles/'
+        dest:  'assets/styles'
+    },
+    scripts: {
+        src: 'assets/lib/src',
+        files: ['assets/lib/src/vendor/*.js', 'assets/lib/src/*.js'],
+        dest: 'assets/lib'
     }
-}
+};
 
-gulp.task('sass', function() {
+// ========================================
+// -- SASS Compilation
+// ========================================
+gulp.task('styles', function() {
   gulp.src(paths.styles.files)
     .pipe(plumber({
         errorHandler: notify.onError("Sass Error: <%= error.message %>")}
@@ -29,55 +46,54 @@ gulp.task('sass', function() {
         errLogToConsole: true
     }))
     .pipe(gulp.dest(paths.styles.dest))
-    .pipe(livereload());
+    .pipe(browserSync.stream());
 });
 
-gulp.task('serve', function(done) {
-    var port = 4000;
-    var express = require('express');
-    var app = express();
-    app.use(express.static(__dirname + '/'));
-    app.listen(port, 'localhost', function () {
-        done();
-    });
-    console.log('Site served on http://localhost:' + port)
-});
-
-gulp.task('html', function() {
-    gulp.src('*.html')
-        .pipe(livereload());
-});
-
-gulp.task('img', function() {
-    gulp.src(['assets/img/*.*'])
-        .pipe(livereload());
-});
-
-// JS
-var scripts = [
-    'assets/lib/src/vendor/*.js',
-    'assets/lib/src/*.js'
-];
-
-gulp.task('concat', function() {
-    return gulp.src(scripts)
+// ========================================
+// -- JavaScript Compilation
+// ========================================
+gulp.task('scripts', function() {
+    return gulp.src(paths.scripts.files)
         .pipe(concat('app.js'))
-        .pipe(uglify())
         .on('error', function errorHandler (error) {
             console.log(error.toString());
             this.emit('end');
         })
+        .pipe(uglify())
         .pipe(rename('app.min.js'))
-        .pipe(gulp.dest('assets/lib/'))
+        .pipe(gulp.dest(paths.scripts.dest))
+        .pipe(browserSync.stream());
 });
 
-gulp.task('watch', function() {  
-    gulp.watch(paths.styles.files, ['sass']);
-    gulp.watch(scripts, ['concat']);
-    gulp.watch('*.html', ['html']);
-    gulp.watch('assets/img/*.*', ['img']);
-
-    livereload.listen();
+// ========================================
+// -- HTML
+// ========================================
+gulp.task('html', function () {
+    gulp.src(paths.html.files)
+        .pipe(browserSync.stream());
 });
 
-gulp.task('default', ['watch', 'concat', 'serve']);
+// ========================================
+// -- Images
+// ========================================
+gulp.task('images', function () {
+    gulp.src(paths.images.files)
+        .pipe(browserSync.stream());
+});
+
+// ========================================
+// -- Serve and Reload
+// ========================================
+gulp.task('serve', function(callback) {
+    browserSync.init({
+        port: 8000,
+        server: './'
+    });
+
+    gulp.watch(paths.styles.files, ['styles']);
+    gulp.watch(paths.scripts.files, ['scripts']);
+    gulp.watch(paths.images.files, ['images']);
+    gulp.watch(paths.html.files, ['html']);
+});
+
+gulp.task('default', ['serve']);
